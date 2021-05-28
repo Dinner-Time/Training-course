@@ -41,6 +41,15 @@ public class CalcGame {
 		return (int)(a%b);
 	}
 	
+	// 1~cnt까지의 합 계산 및 리턴
+	int sum(int cnt) {
+		int result = 0;
+		for (int i=1;i<=cnt;i++) {
+			result = result + i;
+		}
+		return result;
+	}
+	
 	
 	
 
