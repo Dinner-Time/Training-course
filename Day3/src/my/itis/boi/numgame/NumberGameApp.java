@@ -8,6 +8,7 @@ public class NumberGameApp {
 	int rndNum;
 	void init() {
 		rndNum = (int) (Math.random() * 10) + 1;
+		System.out.println(rndNum);
 	}
 	// 사용자 숫자 입력
 	int userInput;
@@ -24,7 +25,7 @@ public class NumberGameApp {
 			isUpDown = true;
 		} else {
 			isUpDown = false;
-			if (rndNum > userInput) {
+			if (rndNum < userInput) {
 				System.out.println("Down");
 			} else {
 				System.out.println("Up");
@@ -37,7 +38,6 @@ public class NumberGameApp {
 		init();
 		while(true) {
 			input();
-			gameOver();
 			if (gameOver()) {
 				break;
 			}
