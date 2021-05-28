@@ -6,6 +6,7 @@ package my.itis.boi.score;
 public class AppMain {
 	
 	public static void main(String[] args) {
+		
 		ScoreArrApp score = new ScoreArrApp();
 		
 		score.printArr();

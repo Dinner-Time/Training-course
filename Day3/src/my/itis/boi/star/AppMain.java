@@ -9,7 +9,12 @@ public class AppMain {
 		
 		StarApp star = new StarApp();
 		
-		star.drawEq(1,5);
-//		star.drawEqInvert(5);
+		star.drawTitle("나무",100);
+		star.drawEq(4);
+		star.drawEq(2,6);
+//		star.drawEq(4,8);
+//		star.drawRect(4);
+
+		
 	}
 }
