@@ -7,39 +7,57 @@ public class NumberGameApp {
 	// 난수 생성
 	int rndNum;
 	void init() {
-		rndNum = (int) (Math.random() * 10) + 1;
-		System.out.println(rndNum);
+		rndNum = (int) (Math.random() * 45) + 1;
+//		System.out.println(rndNum); // 주석처리 필수
 	}
 	// 사용자 숫자 입력
 	int userInput;
 	void input() {
-		System.out.print("Input a number: ");
+		System.out.print("숫자를 입력하세요: ");
 		userInput = scanner.nextInt();
+	}
+	//남은 기회
+	int chances = 6;
+	boolean gameOver() {
+		boolean isLose = false;
+		if (chances == 0) {
+			isLose = true;
+		}
+		return isLose;
 	}
 
 	// up&down 판단
 	//
-	boolean gameOver() {
-		boolean isUpDown;
+	boolean isUpDown() {
+		boolean isWin;
 		if (rndNum == userInput) {
-			isUpDown = true;
+			isWin = true;
 		} else {
-			isUpDown = false;
+			isWin = false;
 			if (rndNum < userInput) {
 				System.out.println("Down");
 			} else {
 				System.out.println("Up");
 			}
 		}
-		return isUpDown;
+		return isWin;
 	}
+	
 	
 	void start() {
 		init();
 		while(true) {
 			input();
-			if (gameOver()) {
+			if (isUpDown()) {
+				System.out.println("이겼습니다!!");
 				break;
+			} else {
+				chances--;
+				System.out.println("남은 기회: "+chances);
+				if (gameOver()) {
+					System.out.println("졌습니다...");
+					break;
+				}
 			}
 		}
 	}
