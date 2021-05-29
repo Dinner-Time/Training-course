@@ -1,4 +1,4 @@
-package chap2.var;
+package selfstudyjava.chap2.var;
 
 /*
  작성자: 박태훈

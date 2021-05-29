@@ -1,4 +1,4 @@
-package chap1.basic;
+package selfstudyjava.chap1.basic;
 
 /*
  작성자: 박태훈
