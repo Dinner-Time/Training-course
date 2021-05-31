@@ -12,7 +12,7 @@ public class GugudanApp {
 	Scanner scanner = new Scanner(System.in);
 	
 	// 입력받은 단만 출력
-	void printDan() {
+	public void printDan() {
 		System.out.print("출력할 단: ");
 		a = scanner.nextInt();
 		System.out.println(a+"단");
@@ -23,7 +23,7 @@ public class GugudanApp {
 	}
 		
 	// 전체 출력
-	void printAll() {
+	public void printAll() {
 		for (int j = 1; j<=9; j++) {
 			for(int i=1; i<=9; i++) {
 				System.out.print(i+"*"+j+"="+i*j + "\t");
@@ -34,7 +34,7 @@ public class GugudanApp {
 	}
 	
 	// 범위 출력
-	void printRange() {
+	public void printRange() {
 		System.out.print("시작할 단: ");
 		s = scanner.nextInt();
 		System.out.print("마지막 단: ");
@@ -47,15 +47,15 @@ public class GugudanApp {
 			System.out.println(" ");
 		}
 	}
-	
+
 	// 전체 역 출력
-		void printAllReverse() {
-			for (int j=9; j>=1; j--) {
-				
-				for(int i=9; i>=1; i--) {
-					System.out.print(i+"*"+j+"="+i*j+"\t");
-				}
-				System.out.println(" ");
+	public void printAllReverse() {
+		for (int j = 9; j >= 1; j--) {
+
+			for (int i = 9; i >= 1; i--) {
+				System.out.print(i + "*" + j + "=" + i * j + "\t");
 			}
+			System.out.println(" ");
 		}
+	}
 }
