@@ -1,9 +1,15 @@
 package my.itis.boi.book;
 
-public class Rent {
-	private String name, title;
-	private String date = "2021-06-01";
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+public class Rent {
+	
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
+	private String name, title;
+	String date = simpleDateFormat.format(new Date());
+	
 	public Rent() {
 		super();
 	}
