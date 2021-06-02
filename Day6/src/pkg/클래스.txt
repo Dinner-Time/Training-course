@@ -1,0 +1,9 @@
+맴버 = 필드
+
+class ___{
+	int a;		인스턴스
+	static ;	스태틱(정적)
+	final static ; 상수
+	
+	
+}
