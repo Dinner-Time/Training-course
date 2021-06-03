@@ -49,9 +49,21 @@ public class Robot {
 		return name;
 	}
 
+	@Override
+	public String toString() {
+		return "Robot [arm=" + arm + ", leg=" + leg + ", name=" + name + "]";
+	}
+
 	// 일반 메서드
 	void print() { // default -> 같은 패키지에서만 접근가능
 		System.out.printf("arm:%d leg:%d name:%s", arm, leg, name);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return ((Robot)obj).arm == this.arm && ((Robot)obj).leg == this.leg;
+	}
+	
+	
 
 }
