@@ -19,7 +19,7 @@ public class ScannerUtil {
 		
 	}
 	public static Friends readFriend() { // 입력받은 값을 split하여 Friend객체를 생성해서 담는다?
-		String fr = scanner.next();
+		String fr = scanner.next(); 
 		String[] arr = fr.split(" ");
 		Friends friends = new Friends(arr[0], arr[1], arr[2]);
 		return friends;
