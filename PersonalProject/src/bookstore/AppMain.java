@@ -1,14 +1,16 @@
 package bookstore;
 
+import java.util.Scanner;
+
 import bookstore.search.SearchBooks;
 
 public class AppMain {
+	
+	static Scanner scanner;
 
 	public static void main(String[] args) {
-		Books.connect();
-		for (Books b : new SearchBooks().getAllBooks()) {
-			System.out.println(b);
-		}
+		ConnectBookList.connect();
+		
 	}
 
 }

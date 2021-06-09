@@ -8,23 +8,7 @@ public class Books {
 	private String writer;
 	private int price;
 	private int quantity;
-	
 
-	public static PreparedStatement queryExecute;
-	public static ResultSet getSqlResult;
-	public static Connection connectUrl;
-
-	public static void connect() {
-		try {
-			// db경로
-			String sampleDBUrl = "jdbc:sqlite:C:\\sqlite\\db\\BookList.db";
-			// db와 연결
-			connectUrl = DriverManager.getConnection(sampleDBUrl);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-	}
-	
 	public Books() {
 		super();
 	}
