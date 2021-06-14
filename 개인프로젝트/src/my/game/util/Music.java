@@ -1,4 +1,4 @@
-package my.music;
+package my.game.util;
 /*
  * 음악을 재생하기 위한 클래스 작성
  * Jlayer가 필요하다. ( https://sourceforge.net/projects/javalayer/)에서 다운로드 가능
@@ -13,7 +13,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javazoom.jl.player.Player;
-import my.dance.AppMain;
+import my.game.AppMain;
 
 public class Music extends Thread{
 	private Player player; 

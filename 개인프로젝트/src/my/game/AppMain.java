@@ -1,10 +1,10 @@
-package my.dance;
+package my.game;
 
-import my.dance.view.GameGUI;
+import my.game.view.MainGUI;
 
 public class AppMain {
 	
 	public static void main(String[] args) {
-		new GameGUI();
+		new MainGUI();
 	}
 }

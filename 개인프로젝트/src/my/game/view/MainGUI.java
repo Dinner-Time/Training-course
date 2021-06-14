@@ -1,12 +1,12 @@
-package my.dance.view;
+package my.game.view;
 
-import java.awt.Color;
 /**
  * 작성자 : 박태훈
  * 작성일 : 2021-06-14
  * 
  * 게임 gui환경을 구축한다. 
  */
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -17,14 +17,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-import my.dance.AppMain;
-import my.music.Music;
-import my.music.Track;
+import my.game.AppMain;
+import my.game.model.Track;
+import my.game.util.Music;
 
-public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클래스를 상속 -> JFrame내의 메서드를 클래스 선언 없이 사용가능하다.
+public class MainGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클래스를 상속 -> JFrame내의 메서드를 클래스 선언 없이 사용가능하다.
 
 	// 생성자를 활용해서 GameGUI클래스를 생성하면 게임시작 화면이 나오도록 한다.
-	public GameGUI() {
+	public MainGUI() {
 
 		// ****** 화면 디자인 ******
 		setUndecorated(true); // 기본적인 메뉴바가 보이지 않게된다.
@@ -40,20 +40,23 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 		introMusic = new Music("IntroMusic.mp3", true);
 		introMusic.start(); // 인트로 음악 재생
 		track = new ArrayList<Track>(); // 게임에 사용할 음악 리스트 생성
-		track.add(new Track("Clouds by Joakim Karud.png","CloudsTitleImage.png", "Clouds by Joakim Karud (official).mp3"));
-		track.add(new Track("Fireplace by Joakim Karud.png","FireplaceTitleImage.png", "Fireplace by Joakim Karud (Official).mp3"));
+		track.add(new Track("Clouds by Joakim Karud.png","CloudsTitleImage.png","CloudsTitleEntered.png", "Clouds by Joakim Karud (official).mp3"));
+		track.add(new Track("Fireplace by Joakim Karud.png","FireplaceTitleImage.png","FireplaceTitleEntered.png", "Fireplace by Joakim Karud (Official).mp3"));
 
 		// ****** 버튼 ******
 		startSet(); // 시작버튼 -> 클릭하면 화면이 전환되고 인트로 음악이 종료된다.
 		exitSet(); // 종료버튼 -> 클릭하면 화면이 종료된다.
 		scoreBoardSet(); // 점수판버튼 -> 클릭하면 점수판이 나타난다.
 
-		// 시작하면 아래 곡 선택 버튼들이 활성화 된다.
+		// 곡 선택 버튼 -> 시작버튼 클릭시 활성화 된다.
 		leftSelectSet();
 		rightSelectSet();
 
-		// 시작버튼, 점수판버튼 클릭시 시작화면가기 버튼이 활성화 된다.
+		// 시작화면가기 버튼 -> 시작버튼, 점수판버튼 클릭시 활성화 된다.
 		toIntro();
+		
+		// 게임시작 버튼 -> 곡 선택 화면에서 활성화된다.
+		gameStartSet();
 
 	}
 	
@@ -62,6 +65,8 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 	public final int SCREEN_WIDTH = 1280, SCREEN_HEIGHT = 720;
 	// main화면인지 아닌지 확인하는 변수
 	private boolean isMain = false;
+	private boolean isIntro = true;
+	private boolean isGamePlay = false;
 
 	// 배경화면 이미지
 	private Image background = new ImageIcon(
@@ -108,21 +113,26 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 	private ImageIcon toIntroButtonEntered = new ImageIcon(
 			AppMain.class.getResource("../img/IntroButtonEntered.png"));
 	private JButton toIntroButton = new JButton(toIntroButtonBasic); // 시작화면가기 버튼 생성
+	
+	// 게임 시작 버튼 이미지
+	private ImageIcon gameStartButtonBasic = new ImageIcon(
+			AppMain.class.getResource("../img/CloudsTitleImage.png"));
+	private ImageIcon gameStartButtonEntered = new ImageIcon(
+			AppMain.class.getResource("../img/CloudsTitleEntered.png"));
+	private JButton gameStartButton = new JButton(gameStartButtonBasic);
 
 	// 곡 관련 변수
 	private Image selectedImage;
-	private Image selectedImageTitle;
 	private Music introMusic;
 	private ArrayList<Track> track;
 	private Music selectedMusic;
 	private int nowSelected = 0;
 	
-	
-	
 //	******************************** 메서드 ********************************
 	/*
-	 * 사작화면과 관련된 변수들과 매서드 -> 자바에서 제공하는 이미지를 화면에 띄우는 방식을 사용하게되면 버퍼링이 심하다. -> 따라서
-	 * 더블버퍼링이라는 기법을 사용한다. -> 버퍼에 이미지를 담아 매순간 갱신하는 기법이다.
+	 * 사작화면과 관련된 변수들과 매서드 
+	 * -> 자바에서 제공하는 이미지를 화면에 띄우는 방식을 사용하게되면 버퍼링이 심하다. 
+	 * -> 따라서 더블버퍼링이라는 기법을 사용한다. 
 	 */
 	private Image screenImage; // 더블 버퍼링을 위한 변수
 	private Graphics screenGraphics; // 더블 버퍼링을 위한 변수
@@ -143,7 +153,6 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 		g.drawImage(background, 0, 0, null);
 		if (isMain) {
 			g.drawImage(selectedImage, 350, 60, null);
-			g.drawImage(selectedImageTitle, 350, 540, null);
 		}
 		paintComponents(g); // 정적인 이미지들은 paintComponents로 구현한다. (...?)
 		this.repaint(); // 4.해당 component를 repaint한다.
@@ -152,7 +161,8 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 	 * 더블 버퍼링 과정에서 repaint()메서드를 활용하는 부분에 대한 설명이 부족하지만 더블버퍼링이 이러한 과정을 통해서 진행되고 더블
 	 * 버퍼링을 사용한 경우와 사용하지 않은 경우를 비교할 수 있다.
 	 */
-
+	
+	// 버튼 관련 매서드
 	public void startSet() {
 		startButton.setBounds(800, 150, 300, 50);
 		startButton.setBorderPainted(false);
@@ -183,6 +193,10 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 			//	게임 시작 이벤트
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				isIntro = false;
+				isMain = true;
+				isGamePlay = false;
+				
 				introMusic.close();
 				selectTrack(nowSelected);
 				startButton.setVisible(false);
@@ -191,8 +205,8 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 				toIntroButton.setVisible(true);
 				leftButton.setVisible(true);
 				rightButton.setVisible(true);
+				gameStartButton.setVisible(true);
 				
-				isMain = true;
 				background = new ImageIcon(AppMain.class.getResource("../img/MainBackground.jpg")).getImage();
 			}
 		});
@@ -385,34 +399,89 @@ public class GameGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 //			시작화면가기 버튼 이벤트
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				isIntro = true;
+				isMain = false;
+				isGamePlay = false;
+				
 				startButton.setVisible(true);
 				exitButton.setBounds(800, 220, 300, 50);
 				scoreBoardButton.setVisible(true);
 				toIntroButton.setVisible(false);
 				leftButton.setVisible(false);
 				rightButton.setVisible(false);
+				gameStartButton.setVisible(false);
 				
-				if(isMain == true) {
+				if(selectedMusic != null) {
 					selectedMusic.close();
+				}
+				
+				if(introMusic != null) {
+					introMusic.close();
 					introMusic = new Music("IntroMusic.mp3", true);
 					introMusic.start();
 				}
 				
-				isMain = false;
 				background = new ImageIcon(AppMain.class.getResource("../img/IntroBackground.jpg")).getImage();
 			}
 		});
 		add(toIntroButton);
 	}
 
+	public void gameStartSet() {
+		
+		gameStartButton.setVisible(false);
+		gameStartButton.setBounds(350, 540, 640, 100);
+		gameStartButton.setBorderPainted(false);
+		gameStartButton.setContentAreaFilled(false);
+		gameStartButton.setFocusPainted(false);
+		gameStartButton.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				gameStartButton.setIcon(gameStartButtonEntered);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				gameStartButton.setIcon(gameStartButtonBasic);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				gameStartButton.setIcon(gameStartButtonBasic);
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				gameStartButton.setIcon(gameStartButtonEntered);
+			}
+
+//			 게임시작 버튼 이벤트
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				isIntro = false;
+				isMain = false;
+				isGamePlay = true;
+				
+				gameStartButton.setVisible(false);
+				leftButton.setVisible(false);
+				rightButton.setVisible(false);
+				isMain = false;
+				selectedMusic.close();
+			}
+		});
+		add(gameStartButton);
+	}
+
 	public void selectTrack(int nowSelected) {
 		if (selectedMusic != null) {
 			selectedMusic.close();
 		}
-		selectedImage = new ImageIcon(AppMain.class.getResource("../img/"+track.get(nowSelected).getSelectedImage()))
-				.getImage();
-		selectedImageTitle = new ImageIcon(AppMain.class.getResource("../img/"+track.get(nowSelected).getSelectedImageTitle()))
-				.getImage();
+		gameStartButtonBasic = new ImageIcon(AppMain.class.getResource("../img/"+track.get(nowSelected).getGameStartButtonBasic()));
+		gameStartButtonEntered = new ImageIcon(AppMain.class.getResource("../img/"+track.get(nowSelected).getGameStartButtonEntered()));
+		gameStartButton.setIcon(gameStartButtonBasic);
+		selectedImage = new ImageIcon(AppMain.class.getResource("../img/"+track.get(nowSelected).getSelectedImage())).getImage();
 		selectedMusic = new Music(track.get(nowSelected).getSelectedMusic(), true);
 		selectedMusic.start();
 	}
