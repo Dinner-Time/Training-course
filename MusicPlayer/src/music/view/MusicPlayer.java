@@ -10,17 +10,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
-
-import com.sun.tools.javac.Main;
 
 import music.control.MusicControl;
 import music.model.ButtonImgs;
 
-public class MusicPlayer extends PlayerScreen{
+public class MusicPlayer extends PlayerBackground{
 
-	ButtonImgs b = new ButtonImgs();
+	ButtonImgs img = new ButtonImgs();
 	
 	public void start() {
 		mainScreen();
@@ -34,15 +34,16 @@ public class MusicPlayer extends PlayerScreen{
 	
 	boolean isMusicOn;
 
-	public JButton playButton = new JButton(b.getPlayButtonBasic()); // 시작 버튼 생성
-	public JButton stopButton = new JButton(b.getStopButtonBasic()); // 정지 버튼 생성
-	public JButton previousButton = new JButton(b.getPreviousButtonBasic()); // 이전곡 버튼 생성
-	public JButton nextButton = new JButton(b.getNextButtonBasic()); // 다음곡 버튼 생성
-	public JButton exitButton = new JButton(b.getExitButtonBasic()); // 닫기 버튼 생성
-	public JButton minimizeButton = new JButton(b.getMinimizeButtonBasic()); // 최소화 버튼 생성
+	public JButton playButton = new JButton(img.getPlayButtonBasic()); // 시작 버튼 생성
+	public JButton stopButton = new JButton(img.getStopButtonBasic()); // 정지 버튼 생성
+	public JButton previousButton = new JButton(img.getPreviousButtonBasic()); // 이전곡 버튼 생성
+	public JButton nextButton = new JButton(img.getNextButtonBasic()); // 다음곡 버튼 생성
+	public JButton exitButton = new JButton(img.getExitButtonBasic()); // 닫기 버튼 생성
+	public JButton minimizeButton = new JButton(img.getMinimizeButtonBasic()); // 최소화 버튼 생성
 	
+	// 시작버튼 
 	public JButton playButtonSet() {
-		playButton.setBounds(350, 350, 120, 50);
+		playButton.setBounds(120, 60, 120, 50);
 		playButton.setBorderPainted(false);
 		playButton.setContentAreaFilled(false);
 		playButton.setFocusPainted(false);
@@ -50,22 +51,22 @@ public class MusicPlayer extends PlayerScreen{
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				playButton.setIcon(b.getPlayButtonEntered());
+				playButton.setIcon(img.getPlayButtonEntered());
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				playButton.setIcon(b.getPlayButtonBasic());
+				playButton.setIcon(img.getPlayButtonBasic());
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				playButton.setIcon(b.getPlayButtonBasic());
+				playButton.setIcon(img.getPlayButtonBasic());
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				playButton.setIcon(b.getPlayButtonEntered());
+				playButton.setIcon(img.getPlayButtonEntered());
 			}
 
 			@Override
@@ -84,7 +85,7 @@ public class MusicPlayer extends PlayerScreen{
 
 	public JButton stopButtonSet() {
 		stopButton.setVisible(false);
-		stopButton.setBounds(350, 350, 120, 50);
+		stopButton.setBounds(120, 60, 120, 50);
 		stopButton.setBorderPainted(false);
 		stopButton.setContentAreaFilled(false);
 		stopButton.setFocusPainted(false);
@@ -92,22 +93,22 @@ public class MusicPlayer extends PlayerScreen{
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				stopButton.setIcon(b.getStopButtonEntered());
+				stopButton.setIcon(img.getStopButtonEntered());
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				stopButton.setIcon(b.getStopButtonBasic());
+				stopButton.setIcon(img.getStopButtonBasic());
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				stopButton.setIcon(b.getStopButtonBasic());
+				stopButton.setIcon(img.getStopButtonBasic());
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				stopButton.setIcon(b.getStopButtonEntered());
+				stopButton.setIcon(img.getStopButtonEntered());
 			}
 
 			@Override
@@ -123,7 +124,7 @@ public class MusicPlayer extends PlayerScreen{
 	}
 
 	public JButton previousButtonSet() {
-		previousButton.setBounds(200, 350, 60, 60);
+		previousButton.setBounds(20, 55, 60, 60);
 		previousButton.setBorderPainted(false);
 		previousButton.setContentAreaFilled(false);
 		previousButton.setFocusPainted(false);
@@ -131,22 +132,22 @@ public class MusicPlayer extends PlayerScreen{
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				previousButton.setIcon(b.getPreviousButtonEntered());
+				previousButton.setIcon(img.getPreviousButtonEntered());
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				previousButton.setIcon(b.getPreviousButtonBasic());
+				previousButton.setIcon(img.getPreviousButtonBasic());
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				previousButton.setIcon(b.getPreviousButtonBasic());
+				previousButton.setIcon(img.getPreviousButtonBasic());
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				previousButton.setIcon(b.getPreviousButtonEntered());
+				previousButton.setIcon(img.getPreviousButtonEntered());
 			}
 
 			@Override
@@ -169,7 +170,7 @@ public class MusicPlayer extends PlayerScreen{
 	}
 
 	public JButton nextButtonSet() {
-		nextButton.setBounds(550, 350, 60, 60);
+		nextButton.setBounds(280, 55, 60, 60);
 		nextButton.setBorderPainted(false);
 		nextButton.setContentAreaFilled(false);
 		nextButton.setFocusPainted(false);
@@ -177,22 +178,22 @@ public class MusicPlayer extends PlayerScreen{
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				nextButton.setIcon(b.getNextButtonEntered());
+				nextButton.setIcon(img.getNextButtonEntered());
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				nextButton.setIcon(b.getNextButtonBasic());
+				nextButton.setIcon(img.getNextButtonBasic());
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				nextButton.setIcon(b.getNextButtonBasic());
+				nextButton.setIcon(img.getNextButtonBasic());
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				nextButton.setIcon(b.getNextButtonEntered());
+				nextButton.setIcon(img.getNextButtonEntered());
 			}
 
 			@Override
@@ -215,7 +216,7 @@ public class MusicPlayer extends PlayerScreen{
 	}
 
 	public JButton exitButtonSet() {
-		exitButton.setBounds(600, 10, 30, 30);
+		exitButton.setBounds(330, 0, 30, 30);
 		exitButton.setBorderPainted(false);
 		exitButton.setContentAreaFilled(false);
 		exitButton.setFocusPainted(false);
@@ -223,22 +224,22 @@ public class MusicPlayer extends PlayerScreen{
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				exitButton.setIcon(b.getExitButtonEntered());
+				exitButton.setIcon(img.getExitButtonEntered());
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				exitButton.setIcon(b.getExitButtonBasic());
+				exitButton.setIcon(img.getExitButtonBasic());
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				exitButton.setIcon(b.getExitButtonBasic());
+				exitButton.setIcon(img.getExitButtonBasic());
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				exitButton.setIcon(b.getExitButtonEntered());
+				exitButton.setIcon(img.getExitButtonEntered());
 			}
 
 			@Override
@@ -255,7 +256,7 @@ public class MusicPlayer extends PlayerScreen{
 	}
 	
 	public JButton minimizeButtonSet() {
-		minimizeButton.setBounds(570, 10, 30, 30);
+		minimizeButton.setBounds(0, 0, 30, 30);
 		minimizeButton.setBorderPainted(false);
 		minimizeButton.setContentAreaFilled(false);
 		minimizeButton.setFocusPainted(false);
@@ -263,22 +264,22 @@ public class MusicPlayer extends PlayerScreen{
 			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				minimizeButton.setIcon(b.getMinimizeButtonEntered());
+				minimizeButton.setIcon(img.getMinimizeButtonEntered());
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
-				minimizeButton.setIcon(b.getMinimizeButtonBasic());
+				minimizeButton.setIcon(img.getMinimizeButtonBasic());
 			}
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				minimizeButton.setIcon(b.getMinimizeButtonBasic());
+				minimizeButton.setIcon(img.getMinimizeButtonBasic());
 			}
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				minimizeButton.setIcon(b.getMinimizeButtonEntered());
+				minimizeButton.setIcon(img.getMinimizeButtonEntered());
 			}
 			
 			@Override
@@ -306,9 +307,14 @@ public class MusicPlayer extends PlayerScreen{
 	}
 	
 	public void makeTray() {
-	    MenuItem exitItem = new MenuItem("exit");
+	    MenuItem exitItem = new MenuItem("close");
 	    MenuItem restoreItem = new MenuItem("restore");
 	    PopupMenu menu = new PopupMenu("My Menu");
+	    TrayIcon myTray = 
+		        new TrayIcon(Toolkit.getDefaultToolkit().getImage( 
+		        		"C:\\Users\\TaeHun\\git\\Training-course\\MusicPlayer\\src\\img\\button\\minimizeButtonBasic.png"), "music", menu);
+		    			// 상대경로로 이미지 지정이 되지 않음...
+	    SystemTray tray = SystemTray.getSystemTray();
 
 	    exitItem.addActionListener(new ActionListener() {
 	        @Override
@@ -321,15 +327,11 @@ public class MusicPlayer extends PlayerScreen{
 	    restoreItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				tray.remove(myTray);
 				setVisible(true);
 			}
 		});
 	    menu.add(restoreItem);
-
-	    TrayIcon myTray = 
-	        new TrayIcon(Toolkit.getDefaultToolkit().getImage(
-	        		"C:\\dev\\workspace\\MusicPlayer\\src\\img\\exitButtonBasic.png"), "music", menu);
-	    SystemTray tray = SystemTray.getSystemTray();
 
 	    try {
 	        tray.add(myTray);

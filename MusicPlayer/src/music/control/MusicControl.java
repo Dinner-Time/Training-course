@@ -14,6 +14,8 @@ public class MusicControl extends Thread {
 	private File file;
 	private InputStream fis;
 	private BufferedInputStream bis;
+	
+	public MusicControl() {}
 
 	public MusicControl(String name, boolean isLoop) { // 생성자
 		try {

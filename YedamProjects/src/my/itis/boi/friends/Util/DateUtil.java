@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtil {
-	static String format = "yyyy-MM-dd E";
+	static String format = "yyyy-MM-dd";
 
 	// Date to String
 	public static String dateToStr(Date date) {
@@ -19,6 +19,9 @@ public class DateUtil {
 		SimpleDateFormat df = new SimpleDateFormat(format);
 		return df.format(date.getTime());
 	}
+	
+	// String to Date
+//	public static 
 
 	// 두 날짜 사이의 일 수 계산
 	public static long daysBetween(Date d1, Date d2) {
