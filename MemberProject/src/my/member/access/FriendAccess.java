@@ -22,4 +22,5 @@ public interface FriendAccess {
 	Friends selectOne(String name);
 	
 	Friends findTel(String tel);
+
 }

@@ -11,7 +11,7 @@ public interface BoardAccess {
 	// 등록(제목/작성자/내용)
 	void insertPost(Board board);
 	// 수정(작성자만)
-	void updatePost(int id, String content);
+	void updatePost(int id, String content, String u_nick);
 	// 삭제(작성자와 admin만)
-	void deletPost(int id);
+	void deletPost(int id, String u_nick);
 }

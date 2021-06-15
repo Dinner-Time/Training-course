@@ -1,5 +1,6 @@
 package my.game.view;
 
+import java.awt.AWTException;
 /**
  * 작성자 : 박태훈
  * 작성일 : 2021-06-14
@@ -9,6 +10,13 @@ package my.game.view;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -18,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import my.game.AppMain;
+import my.game.control.Game;
 import my.game.model.Track;
 import my.game.util.Music;
 
@@ -66,7 +75,7 @@ public class MainGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 	// main화면인지 아닌지 확인하는 변수
 	private boolean isMain = false;
 	private boolean isIntro = true;
-	private boolean isGamePlay = false;
+	private boolean isGameOn = false;
 
 	// 배경화면 이미지
 	private Image background = new ImageIcon(
@@ -153,6 +162,8 @@ public class MainGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 		g.drawImage(background, 0, 0, null);
 		if (isMain) {
 			g.drawImage(selectedImage, 350, 60, null);
+		} if(isGameOn) {
+			
 		}
 		paintComponents(g); // 정적인 이미지들은 paintComponents로 구현한다. (...?)
 		this.repaint(); // 4.해당 component를 repaint한다.
@@ -195,7 +206,7 @@ public class MainGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 			public void mouseClicked(MouseEvent e) {
 				isIntro = false;
 				isMain = true;
-				isGamePlay = false;
+				isGameOn = false;
 				
 				introMusic.close();
 				selectTrack(nowSelected);
@@ -287,7 +298,7 @@ public class MainGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 				exitButton.setBounds(1050, 30, 300, 50);
 				scoreBoardButton.setVisible(false);
 				toIntroButton.setVisible(true);
-
+				setVisible(false);
 				background = new ImageIcon(AppMain.class.getResource("../img/MainBackground.jpg")).getImage();
 			}
 		});
@@ -402,7 +413,7 @@ public class MainGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 				
 				isIntro = true;
 				isMain = false;
-				isGamePlay = false;
+				isGameOn = false;
 				
 				startButton.setVisible(true);
 				exitButton.setBounds(800, 220, 300, 50);
@@ -462,7 +473,7 @@ public class MainGUI extends JFrame { // GUI 환경 구축을 위해 JFrame클�
 			public void mouseClicked(MouseEvent e) {
 				isIntro = false;
 				isMain = false;
-				isGamePlay = true;
+				isGameOn = true;
 				
 				gameStartButton.setVisible(false);
 				leftButton.setVisible(false);
