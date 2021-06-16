@@ -3,7 +3,7 @@ package music.model;
 public class Music {
 	// Model Class
 	private String musicName;
-	private String musicImg;
+//	private String musicImg;
 	
 
 	public Music(String musicName) {

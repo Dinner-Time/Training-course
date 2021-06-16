@@ -4,21 +4,29 @@ import java.awt.AWTException;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JButton;
 
 import music.control.MusicControl;
 import music.model.ButtonImgs;
 
+@SuppressWarnings("serial")
 public class MusicPlayer extends PlayerBackground{
+	
+	/*
+	 * musicplayer를 제어할 수 있는 다양한 버튼과 그 기능들을 정의해 놓는다.
+	 * 	- 목표 -
+	 * 	-> 일시정지를 구현
+	 * 	-> 재생시간 출력을 구현
+	 * 	-> 플레이 리스트 출력을 구현
+	 * 	-> 현재 재생 중인 곡이 끝나면 자동으로 다음곡으로 넘어가는 기능 구현
+	 * 	-> 한 곡 반복을 선택 할 수 있는 기능 구현
+	 */
 
 	ButtonImgs img = new ButtonImgs();
 	
@@ -32,7 +40,21 @@ public class MusicPlayer extends PlayerBackground{
 		add(minimizeButtonSet());
 	}
 	
-	boolean isMusicOn;
+	boolean isMusicOn; // 음악이 재생 중인지 아닌지 판단
+	
+	int[] ButtonPosition = {
+						115, 70, // 시작 버튼 위치
+						110, 75, // 닫기 버튼 위치
+						30, 90, // 이전곡 버튼 위치
+						280, 90, // 다음곡 버튼 위치
+						330, 0, // 닫기 버튼 위치
+						300, 8, // 최소화 버튼 위치
+					}; 
+	int[] ButtonSize = {
+			140, 80, // 시작 버튼 및 정지 버튼 크기
+			50, 50, // 이전곡 버튼 및 다음곡 버튼 크기
+			20, 20, // 닫기 버튼 및 최소화 버튼 크기
+	}; 
 
 	public JButton playButton = new JButton(img.getPlayButtonBasic()); // 시작 버튼 생성
 	public JButton stopButton = new JButton(img.getStopButtonBasic()); // 정지 버튼 생성
@@ -43,7 +65,8 @@ public class MusicPlayer extends PlayerBackground{
 	
 	// 시작버튼 
 	public JButton playButtonSet() {
-		playButton.setBounds(120, 60, 120, 50);
+		playButton.setBounds(ButtonPosition[0], ButtonPosition[1],
+							ButtonSize[0], ButtonSize[1]);
 		playButton.setBorderPainted(false);
 		playButton.setContentAreaFilled(false);
 		playButton.setFocusPainted(false);
@@ -71,12 +94,8 @@ public class MusicPlayer extends PlayerBackground{
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (selectedMusic != null) {
-					selectedMusic.close();
-				}
-				selectedMusic = new MusicControl(music.get(currentPlay).getMusicName(), true);
-				selectedMusic.start();
-				isMusicOn = true;
+				stopMusic();
+				startMusic();
 				buttonVisiblity(isMusicOn);
 			}
 		});
@@ -85,7 +104,8 @@ public class MusicPlayer extends PlayerBackground{
 
 	public JButton stopButtonSet() {
 		stopButton.setVisible(false);
-		stopButton.setBounds(120, 60, 120, 50);
+		stopButton.setBounds(ButtonPosition[2], ButtonPosition[3],
+							ButtonSize[0], ButtonSize[1]);
 		stopButton.setBorderPainted(false);
 		stopButton.setContentAreaFilled(false);
 		stopButton.setFocusPainted(false);
@@ -113,10 +133,7 @@ public class MusicPlayer extends PlayerBackground{
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (selectedMusic != null) {
-					isMusicOn = false;
-					selectedMusic.close();
-				}
+				stopMusic();
 				buttonVisiblity(isMusicOn);
 			}
 		});
@@ -124,7 +141,8 @@ public class MusicPlayer extends PlayerBackground{
 	}
 
 	public JButton previousButtonSet() {
-		previousButton.setBounds(20, 55, 60, 60);
+		previousButton.setBounds(ButtonPosition[4], ButtonPosition[5], 
+								ButtonSize[2], ButtonSize[3]);
 		previousButton.setBorderPainted(false);
 		previousButton.setContentAreaFilled(false);
 		previousButton.setFocusPainted(false);
@@ -157,12 +175,8 @@ public class MusicPlayer extends PlayerBackground{
 				} else {
 					currentPlay--;
 				}
-				if (selectedMusic != null) {
-					selectedMusic.close();
-				}
-				selectedMusic = new MusicControl(music.get(currentPlay).getMusicName(), true);
-				selectedMusic.start();
-				isMusicOn = true;
+				stopMusic();
+				startMusic();
 				buttonVisiblity(isMusicOn);
 			}
 		});
@@ -170,7 +184,8 @@ public class MusicPlayer extends PlayerBackground{
 	}
 
 	public JButton nextButtonSet() {
-		nextButton.setBounds(280, 55, 60, 60);
+		nextButton.setBounds(ButtonPosition[6], ButtonPosition[7], 
+							ButtonSize[2], ButtonSize[3]);
 		nextButton.setBorderPainted(false);
 		nextButton.setContentAreaFilled(false);
 		nextButton.setFocusPainted(false);
@@ -203,12 +218,8 @@ public class MusicPlayer extends PlayerBackground{
 				} else {
 					currentPlay++;
 				}
-				if (selectedMusic != null) {
-					selectedMusic.close();
-				}
-				selectedMusic = new MusicControl(music.get(currentPlay).getMusicName(), true);
-				selectedMusic.start();
-				isMusicOn = true;
+				stopMusic();
+				startMusic();
 				buttonVisiblity(isMusicOn);
 			}
 		});
@@ -216,7 +227,8 @@ public class MusicPlayer extends PlayerBackground{
 	}
 
 	public JButton exitButtonSet() {
-		exitButton.setBounds(330, 0, 30, 30);
+		exitButton.setBounds(ButtonPosition[8], ButtonPosition[9], 
+							ButtonSize[4], ButtonSize[5]);
 		exitButton.setBorderPainted(false);
 		exitButton.setContentAreaFilled(false);
 		exitButton.setFocusPainted(false);
@@ -256,7 +268,8 @@ public class MusicPlayer extends PlayerBackground{
 	}
 	
 	public JButton minimizeButtonSet() {
-		minimizeButton.setBounds(0, 0, 30, 30);
+		minimizeButton.setBounds(ButtonPosition[10], ButtonPosition[11], 
+								ButtonSize[4], ButtonSize[5]);
 		minimizeButton.setBorderPainted(false);
 		minimizeButton.setContentAreaFilled(false);
 		minimizeButton.setFocusPainted(false);
@@ -296,7 +309,11 @@ public class MusicPlayer extends PlayerBackground{
 		return minimizeButton;
 	}
 
+	// 음악 재생 여부에 따라 play버튼과 stop버튼이 점멸한다.
 	public void buttonVisiblity(boolean isMusicOn) {
+		/*
+		 * playButton과 stopButton의 setVisible을 조절한다.
+		 */
 		if (isMusicOn) {
 			playButton.setVisible(false);
 			stopButton.setVisible(true);
@@ -306,14 +323,31 @@ public class MusicPlayer extends PlayerBackground{
 		}
 	}
 	
+	public void startMusic() {
+		selectedMusic = new MusicControl(music.get(currentPlay).getMusicName(), false);
+		selectedMusic.start();
+		isMusicOn = true;
+		
+	}
+	
+	public void stopMusic() {
+		if (selectedMusic != null) {
+			selectedMusic.close();
+			isMusicOn = false;
+		}
+	}
+	
+	// 시스템 트레이(최소화)를 위한 메서드
 	public void makeTray() {
-	    MenuItem exitItem = new MenuItem("close");
+		/*
+		 * PopupMenu에 원하는 기능을 하는 MenuItem을 추가해서 
+		 * 트레이 아이콘을 우클릭 시 MenuItem이 보이도록 한다.
+		 * MenuItem에 기능추가는 ActionListener로 한다.
+		 */
+	    MenuItem exitItem = new MenuItem("close"); 
 	    MenuItem restoreItem = new MenuItem("restore");
 	    PopupMenu menu = new PopupMenu("My Menu");
-	    TrayIcon myTray = 
-		        new TrayIcon(Toolkit.getDefaultToolkit().getImage( 
-		        		"C:\\Users\\TaeHun\\git\\Training-course\\MusicPlayer\\src\\img\\button\\minimizeButtonBasic.png"), "music", menu);
-		    			// 상대경로로 이미지 지정이 되지 않음...
+	    TrayIcon myTray = new TrayIcon(img.getMinimizeButtonBasic().getImage(), "music", menu);
 	    SystemTray tray = SystemTray.getSystemTray();
 
 	    exitItem.addActionListener(new ActionListener() {

@@ -1,11 +1,14 @@
 package music.model;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 import music.Main;
 
 public class ButtonImgs {
+	
+	/*
+	 * 버튼 이미지들은 변경할 수 없도록 getter메서드들만 만든다.
+	 */
 
 	// 시작버튼 이미지
 	private ImageIcon playButtonBasic = new ImageIcon(Main.class.getResource("../img/button/playButtonBasic.png"));

@@ -14,9 +14,13 @@ import music.Main;
 import music.control.MusicControl;
 import music.model.Music;
 
+@SuppressWarnings("serial")
 public class PlayerBackground extends JFrame {
 	
-	public static final int SCREEN_WIDTH = 360, SCREEN_HEIGHT = 150;
+	/*
+	 * 배경화면 custom과 재생할 음악 리스트를 만든다.
+	 */
+	
 	ArrayList<Music> music = new ArrayList<Music>();
 	MusicControl selectedMusic;
 	int currentPlay = 0;
@@ -25,25 +29,37 @@ public class PlayerBackground extends JFrame {
 		musicUpdate();
 	}
 	
+	// 재생할 음악들을 리스트에 추가하는 메서드
 	public void musicUpdate() {
+		/*
+		 * MusicList폴더 내의 mp3 파일들의 파일명만 가져올 수 있도록 한다. 
+		 */
 		try {
-			File dir = new File(Main.class.getResource("../MusicList/").toURI());
-			File files[] = dir.listFiles();
-			for (int i = 0; i < files.length; i++) {
-				String s = files[i].getPath();
-				s = s.substring(s.lastIndexOf('\\') + 1);
-				if (s.substring(s.lastIndexOf('.') + 1).equals("mp3")) {
-					music.add(new Music(s));
+			File dir = new File(Main.class.getResource("../MusicList/").toURI()); // 폴더 경로
+			File files[] = dir.listFiles(); // 폴더 내의 파일들의 경로를 files배열에 추가
+			// 각 요소들을 for문을 통해 파일명을 추출하는 작업
+			for (File f : files) {
+				String s = f.getPath(); // 파일 경로를 String화 해서
+				s = s.substring(s.lastIndexOf('\\') + 1); // substring을 통해 파일명만 가져와서 새로 저장한 후
+				if (s.substring(s.lastIndexOf('.') + 1).equals("mp3")) { // 확장자명이 mp3인 파일인지 확인한 다음
+					music.add(new Music(s)); // music 리스트에 추가
 				}
 			}
 		} catch (URISyntaxException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-
-	private Image background = new ImageIcon(Main.class.getResource("../img/musicPlayerMain.jpg")).getImage();
+	
+	// 배경 이미지 
+	private Image background = new ImageIcon(Main.class.getResource("../img/backgroundAqua.png")).getImage();
+	// 배경 사이즈 
+	public static final int SCREEN_WIDTH = 360, SCREEN_HEIGHT = 150;
 
 	public void mainScreen() {
+		/*
+		 * 자바의 기본 gui화면을 custom 할 수 있게 하기위한 과정
+		 * 자세한 내용은 youtube 자바(JAVA) 리듬게임 만들기 강좌 - 동빈 나 재생 목록을 참고
+		 */
 		setUndecorated(true); // 기본적인 메뉴바가 보이지 않게된다.
 		setBackground(new Color(0, 0, 0, 0)); // paintConponent시에 전부 하얀색이 된다.(....?)
 		setSize(SCREEN_WIDTH, SCREEN_HEIGHT); // gui창의 크기 설정 -> setSize(가로, 세로)
@@ -53,6 +69,12 @@ public class PlayerBackground extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 해당 메서드를 사용하지 않으면 창을 종료해도 프로그램은 계속 돌아가게 된다.
 		setVisible(true); // 화면 출력
 	}
+	
+	/* 더블 버퍼링
+	 * 
+	 * 더블 버퍼링에 관한 설명은 아래 블로그를 참조
+	 * https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=lghlove0509&logNo=221009877738
+	 */
 	private Image screenImage; // 더블 버퍼링을 위한 변수
 	private Graphics screenGraphics; // 더블 버퍼링을 위한 변수
 
