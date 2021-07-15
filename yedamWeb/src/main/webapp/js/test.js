@@ -109,7 +109,7 @@ function frm_submit() {
 }
 
 function frm_delete() {
-	let eid = document.querySelector('table').childNodes[2].childNodes[0].textContent;
+	let eid = document.querySelector('input[name="eid"]').value;
 	console.log(eid);
 	xhtp.open("get", "DeletServlet?eid=" + eid);
 	xhtp.send();
