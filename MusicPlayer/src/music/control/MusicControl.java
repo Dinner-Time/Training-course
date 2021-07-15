@@ -20,7 +20,7 @@ public class MusicControl extends Thread {
 	public MusicControl(String name, boolean isLoop) { // 생성자
 		try {
 			this.isLoop = isLoop;
-			file = new File(Main.class.getResource("../MusicList/" + name).toURI());
+			file = new File(Main.MUSIC_FOLDER_PATH + name);
 			fis = new FileInputStream(file);
 			bis = new BufferedInputStream(fis);
 			player = new Player(bis);

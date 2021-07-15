@@ -5,14 +5,14 @@ import javax.swing.ImageIcon;
 import music.Main;
 
 public class ButtonImgs {
-	
 	/*
+	 * 버튼 이미지를 저장하는 model class
 	 * 버튼 이미지들은 변경할 수 없도록 getter메서드들만 만든다.
 	 */
 
 	// 시작버튼 이미지
-	private ImageIcon playButtonBasic = new ImageIcon(Main.class.getResource("../img/button/playButtonBasic.png"));
-	private ImageIcon playButtonEntered = new ImageIcon(Main.class.getResource("../img/button/playButtonEntered.png"));
+	private ImageIcon playButtonBasic = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "playButtonBasic.png");
+	private ImageIcon playButtonEntered = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "playButtonEntered.png");
 
 	public ImageIcon getPlayButtonBasic() {
 		return playButtonBasic;
@@ -23,8 +23,8 @@ public class ButtonImgs {
 	}
 
 	// 정지버튼 이미지
-	private ImageIcon stopButtonBasic = new ImageIcon(Main.class.getResource("../img/button/stopButtonBasic.png"));
-	private ImageIcon stopButtonEntered = new ImageIcon(Main.class.getResource("../img/button/stopButtonEntered.png"));
+	private ImageIcon stopButtonBasic = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "stopButtonBasic.png");
+	private ImageIcon stopButtonEntered = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "stopButtonEntered.png");
 
 	public ImageIcon getStopButtonBasic() {
 		return stopButtonBasic;
@@ -35,8 +35,8 @@ public class ButtonImgs {
 	}
 
 	// 이전곡버튼 이미지
-	private ImageIcon previousButtonBasic = new ImageIcon(Main.class.getResource("../img/button/previousButtonBasic.png"));
-	private ImageIcon previousButtonEntered = new ImageIcon(Main.class.getResource("../img/button/previousButtonEntered.png"));
+	private ImageIcon previousButtonBasic = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "previousButtonBasic.png");
+	private ImageIcon previousButtonEntered = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "previousButtonEntered.png");
 
 	public ImageIcon getPreviousButtonBasic() {
 		return previousButtonBasic;
@@ -47,8 +47,8 @@ public class ButtonImgs {
 	}
 
 	// 다음곡버튼 이미지
-	private ImageIcon nextButtonBasic = new ImageIcon(Main.class.getResource("../img/button/nextButtonBasic.png"));
-	private ImageIcon nextButtonEntered = new ImageIcon(Main.class.getResource("../img/button/nextButtonEntered.png"));
+	private ImageIcon nextButtonBasic = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "nextButtonBasic.png");
+	private ImageIcon nextButtonEntered = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "nextButtonEntered.png");
 
 	public ImageIcon getNextButtonBasic() {
 		return nextButtonBasic;
@@ -59,8 +59,8 @@ public class ButtonImgs {
 	}
 
 	// 닫기버튼 이미지
-	private ImageIcon exitButtonBasic = new ImageIcon(Main.class.getResource("../img/button/exitButtonBasic.png"));
-	private ImageIcon exitButtonEntered = new ImageIcon(Main.class.getResource("../img/button/exitButtonEntered.png"));
+	private ImageIcon exitButtonBasic = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "exitButtonBasic.png");
+	private ImageIcon exitButtonEntered = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "exitButtonEntered.png");
 
 	public ImageIcon getExitButtonBasic() {
 		return exitButtonBasic;
@@ -71,8 +71,8 @@ public class ButtonImgs {
 	}
 	
 	// 최소화버튼 이미지
-	private ImageIcon minimizeButtonBasic = new ImageIcon(Main.class.getResource("../img/button/minimizeButtonBasic.png"));
-	private ImageIcon minimizeButtonEntered = new ImageIcon(Main.class.getResource("../img/button/minimizeButtonEntered.png"));
+	private ImageIcon minimizeButtonBasic = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "minimizeButtonBasic.png");
+	private ImageIcon minimizeButtonEntered = new ImageIcon(Main.BUTTON_IMG_FOLDER_PATH + "minimizeButtonEntered.png");
 	
 	public ImageIcon getMinimizeButtonBasic() {
 		return minimizeButtonBasic;

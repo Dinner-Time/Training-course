@@ -35,7 +35,7 @@ public class PlayerBackground extends JFrame {
 		 * MusicList폴더 내의 mp3 파일들의 파일명만 가져올 수 있도록 한다. 
 		 */
 		try {
-			File dir = new File(Main.class.getResource("../MusicList/").toURI()); // 폴더 경로
+			File dir = new File(Main.MUSIC_FOLDER_PATH); // 폴더 경로
 			File files[] = dir.listFiles(); // 폴더 내의 파일들의 경로를 files배열에 추가
 			// 각 요소들을 for문을 통해 파일명을 추출하는 작업
 			for (File f : files) {
@@ -45,15 +45,13 @@ public class PlayerBackground extends JFrame {
 					music.add(new Music(s)); // music 리스트에 추가
 				}
 			}
-		} catch (URISyntaxException e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	// 배경 이미지 
-	private Image background = new ImageIcon(Main.class.getResource("../img/backgroundAqua.png")).getImage();
-	// 배경 사이즈 
-	public static final int SCREEN_WIDTH = 360, SCREEN_HEIGHT = 150;
+	// 배경 이미지 (배경이미지는 여기서 한 번만 쓰이기 때문에 model에 추가하지 않았다.)
+	private Image background = new ImageIcon(Main.IMG_FOLDER_PATH + "backgroundAqua.png").getImage();
 
 	public void mainScreen() {
 		/*
@@ -62,7 +60,7 @@ public class PlayerBackground extends JFrame {
 		 */
 		setUndecorated(true); // 기본적인 메뉴바가 보이지 않게된다.
 		setBackground(new Color(0, 0, 0, 0)); // paintConponent시에 전부 하얀색이 된다.(....?)
-		setSize(SCREEN_WIDTH, SCREEN_HEIGHT); // gui창의 크기 설정 -> setSize(가로, 세로)
+		setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT); // gui창의 크기 설정 -> setSize(가로, 세로)
 		setResizable(false); // gui창의 크기 변경 불가
 		setLocationRelativeTo(null); // gui창을 실행하면 항상 정중앙에 나온다
 		setLayout(null); // gui창의 JLabel, JButton객체들을 원하는 위치에 넣을 수 있다.
@@ -79,7 +77,7 @@ public class PlayerBackground extends JFrame {
 	private Graphics screenGraphics; // 더블 버퍼링을 위한 변수
 
 	public void paint(Graphics g) { // 형태가 약속된 메서드
-		screenImage = createImage(SCREEN_WIDTH, SCREEN_HEIGHT); // 1.화면과 같은 크기의 이미지를 생성하고
+		screenImage = createImage(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT); // 1.화면과 같은 크기의 이미지를 생성하고
 		screenGraphics = screenImage.getGraphics(); // 2.그 이미지를 그래픽으로 담아서
 		screenDraw(screenGraphics);
 		g.drawImage(screenImage, 0, 0, null); // 5.drawImage메서드를 통해 이미지를 다시 화면에 그린다.
