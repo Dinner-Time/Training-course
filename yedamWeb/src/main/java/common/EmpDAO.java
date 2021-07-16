@@ -13,10 +13,6 @@ public class EmpDAO {
 	PreparedStatement psmt;
 	ResultSet rs;
 	
-	public static void main(String[] args) {
-		System.out.println(DBCon.getConnect());
-	}
-	
 	public static Connection getConnect() {
 		Connection conn = null;
 		try {
