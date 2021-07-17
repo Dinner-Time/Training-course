@@ -1,15 +1,139 @@
 /* css styles */
+@font-face {
+    font-family: 'EliceDigitalBaeum_Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'EliceDigitalBaeum_Bold';
 }
 
-textarea {
-    resize: none;
+body{
+    /* 크기 설정 */
+    width: 100vw;
+    height: 100vh;
+
+    /* section 중앙 배치 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* 배경 이미지 설정 */
+    background: url(../img/backgroud.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+    /* 전역 폰트 설정 */
+    font-size: 24px;
+    color: blanchedalmond;
+
+    /* 가로 스크롤 삭제 */
+    overflow-x: hidden;
+}
+
+section{
+    /* 크기 설정 */
+    width: 600px;
+    min-height: 800px;
+
+    /* 배경, 그림자, 테두리, 패딩 */
+    background-color: rgba(0, 0, 0, .8);
+    box-shadow: 6px 6px 20px 1px rgba(0, 0, 0, .6);
+    border-radius: 20px;
+    padding: 40px;
+}
+
+input{
+    /* 크기 설정 */
+    width: 100%;
+
+    /* 폰트 설정 */
+    font-size: 21px;
+    color: rgba(255, 235, 205, .6);
+
+    /* 배경, 테두리, 마진 */
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+input[type='button']{
+    font-size: 18px;
+    width: 3.6em;
+    padding: .4em 0;
+    border-radius: 8px;
+	background-color: transparent;
+    border: none;
+    color: blanchedalmond;
+    transition: all .4s ease-out;
+    margin: 0;
+}
+
+input[type='button']:hover{
+    cursor: pointer;
+    background-color: #fff;
+    color: rgba(0, 0, 0, .8);
+}
+
+.line{
+    width: 100%;
+    height: 2px;
+    background-color: blanchedalmond;
+    margin: 20px 0;
+}
+
+.line:last-child{
+    position: absolute;
+    bottom: 0;
+}
+
+#commentList{
+    margin-bottom: 40px;
+}
+
+#commentList>div{
+    display: grid;
+    grid-template-columns: 9fr 1fr;
+    margin: 10px 0;
+}
+
+#commentList>div .conWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#commentList>div .conWrapper .writer{
+    font-weight: bold;
+    color: #96BAFF;
+    margin-right: 20px;
+}
+
+#commentList>div .conWrapper .content{
+    color: #fff;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+#commentList>div .btnWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #commentUpdate {
+    grid-column: 1/3;
     display: none;
+    border: 1px dashed blanchedalmond;
+    border-radius: 20px;
+    padding: 10px;
 }
