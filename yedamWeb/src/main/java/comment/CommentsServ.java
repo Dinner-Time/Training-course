@@ -20,7 +20,6 @@ public class CommentsServ extends HttpServlet {
     public CommentsServ() {
         super();
     }
-    
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
@@ -46,6 +45,17 @@ public class CommentsServ extends HttpServlet {
 			comment.setName(request.getParameter("name"));
 			HashMap<String, Object> map = CommentsDAO.getInstance().insert(comment);
 			out.println(toXML(map));
+		} else if (cmd.equals("update")) {
+			Comments comment = new Comments();
+			comment.setId(request.getParameter("id"));
+			comment.setContent(request.getParameter("content"));
+			comment.setName(request.getParameter("name"));
+			HashMap<String, Object> map = CommentsDAO.getInstance().update(comment);
+			out.println(toXML(map));
+		} else if (cmd.equals("delete")) {
+			CommentsDAO.getInstance().delete(request.getParameter("id"));
+		} else {
+			System.out.println("not good");
 		}
 	}
 
