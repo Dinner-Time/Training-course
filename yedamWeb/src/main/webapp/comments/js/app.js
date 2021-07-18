@@ -11,21 +11,6 @@ window.onload = function () {
     loadCommentList();
 }
 
-function textEffect(){
-    const inputText = document.querySelectorAll('input[type="text"]');
-    const labelText = document.querySelectorAll('input[type="text"] ~ label');
-
-    for(let i =0; i<inputText.length; i++){
-        if (inputText[i].value != ""){
-            labelText[i].classList.remove("active");
-            labelText[i].classList.add("inactive");
-        } else{
-            labelText[i].classList.remove("inactive");
-            labelText[i].classList.add("active");
-        }
-    }
-}
-
 // ************************** 페이지 로드 **************************
 
 // 목록조회
@@ -79,74 +64,72 @@ function loadCommentResult() {
 // ************************** 페이지 로드 **************************
 
 
-// ************************** 데이터 작성 **************************
-
-// 한 건을 조회
-function makeCommentView(comment) {
-    let div = document.createElement('div'); // div태그 생성
-    div.setAttribute('id', comment.id); // id속성값을 읽어온 데이터의 id값으로 저장
-    div.className = 'comment'; // class 부여(comment)
-    div.comment = comment; // (????)
-    div.innerHTML = commentView(comment); // 생성한 div태그의 html내용을 작성
-    return div;
-}
-
-// 출력 내용 작성
-function commentView(comment) {
-    let str = 
-        '<div class="conWrapper">' +
-        '<span class="writer">' + comment.name +'</span class="writer">' + // 작성자 이름
-        '<span class="content">' + comment.content + '<span class="content">' + // 작성 내용
-        '</div>' +
-        '<div class="btnWrapper">' +
-        '<input type="button" value="수정" onclick="viewUpdateForm(' +
-        comment.id + ')">' +
-        '<input type="button" value="삭제" onclick="confirmDeletion(' +
-        comment.id + ')">' +
-        '</div>'
-    return str;
-}
-
-// ************************** 데이터 작성 **************************
-
-
 // ************************** 게시글 추가 **************************
 
+// 등록 버튼 클릭 시
 function addComment() {
-    let name = addForm.name.value;
+    // 1. input에 아무 것도 없을 시 
+    // 2. 경고창을 띄우고 기능 하지 않도록 함
+    // 3. 입력받은 내용을 바탕으로 parameter를 작성하여
+    // 4. servlet과 통신(?)
+    // 5. 이후 servlet페이지에 작성된 데이터를 통해 페이지에 내용 작성
+
+    // ***** 1, 2 ********
+    let name = addForm.name.value; // 이름에 입력된 input 값
     if (name == "") {
         alert('please...');
         addForm.name.focus();
         return;
     }
-    let content = addForm.content.value;
+    let content = addForm.content.value; // 내용에 입력된 input 값
     if (content == "") {
         alert('please...');
         addForm.content.focus();
         return;
     }
+
+    // ***** 3 *****
     let param = "&name=" + name + "&content=" + content;
-    console.log(param);
+    console.log(param); // 작성된 parameter확인 (주석가능)
+
+    // ***** 4 *****
     let xhtp = new XMLHttpRequest();
     xhtp.open("get", "../CommentsServ?cmd=insert" + param);
     xhtp.send();
-    xhtp.onreadystatechange = addResult;    
+
+    // ***** 5 *****
+    xhtp.onreadystatechange = addResult;
 }
 
 // 등록 콜백 함수
 function addResult() {
+    // 1. 연결 상태가 정상일 경우
+    // 2. servlet페이지에 저장된 xml형태의 데이터를 문자열로 변경한 이후
+    // 3. 저장된 데이터중 code가 success일 때
+    // 4. 저장된 데이터 중 data의 내용(JSON형태)을 Object로 변경한 후
+    // 5. 'commentList'태그에 추가 하고 input값을 초기화 한다.
+
+    // ***** 1 *****
     if (this.readyState == 4 && this.status == 200) {
+
+        // ***** 2 *****
         let xmp = new DOMParser();
         let xmlDoc = xmp.parseFromString(this.responseText, 'text/xml');
-        let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
-        let listDiv = document.getElementById('commentList');
+        let code = xmlDoc.getElementsByTagName('code')[0].innerHTML; // 저장된 데이터 중 code
+        let listDiv = document.getElementById('commentList'); // 'commentList'태그
+
+        // ***** 3 *****
         if (code = 'success') {
+
+            // ***** 4 *****
             let comment = JSON.parse(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
             console.log(comment);
+
+            // ***** 5 *****
             listDiv.appendChild(makeCommentView(comment));
             addForm.name.value = "";
             addForm.content.value = "";
-            textEffect();
+            textEffect(); // 텍스트 효과
         } else if (code = 'error') {
             alert("error");
         }
@@ -160,21 +143,32 @@ function addResult() {
 
 // 수정 화면
 function viewUpdateForm(commentId) {
-    let commentDiv = document.getElementById(commentId);
-    let updateFormDiv = document.getElementById('commentUpdate');
+    // 1. 수정 Form을 보이게 하고
+    // 2. 수정 하려는 글 아래에 Form을 추가
+    // 3. 수정 하려는 글의 데이터를 읽어와서 input에 저장
+
+    let commentDiv = document.getElementById(commentId); // 수정 하려는 글의 id값
+    let updateFormDiv = document.getElementById('commentUpdate'); // 수정 form
+
+    // ***** 1 *****
     updateFormDiv.style.display = "block";
 
+    // ***** 2 *****
     commentDiv.appendChild(updateFormDiv);
-    let comment = commentDiv.comment;
+
+    // ***** 3 *****
+    let comment = commentDiv.comment; // (????)
     console.log(updateForm.id);
     updateForm.id.value = comment.id;
     updateForm.name.value = comment.name;
     updateForm.content.value = comment.content;
-    textEffect();
+    textEffect(); // 텍스트 효과
 }
 
-// 변경 버튼
+// 변경 버튼 클릭시 
 function updateComment() {
+    // parameter에 id가 추가 된 것을 제외 하고는 addComment()와 같다.
+    // ctl + f 로 addComment() 확인
     let name = updateForm.name.value;
     if (name == "") {
         alert('please...');
@@ -187,7 +181,7 @@ function updateComment() {
         updateForm.content.focus();
         return;
     }
-    let id = updateForm.id.value;
+    let id = updateForm.id.value; // id
     let param = "&id=" + id + "&name=" + name + "&content=" + content;
     console.log(param);
     let xhtp = new XMLHttpRequest();
@@ -198,17 +192,34 @@ function updateComment() {
 
 // 변경 콜백 함수
 function updateResult() {
+    // 1, 2, 3, 4 과정이 등록 콜백 함수와 같다
+    // ctl + f로 addResult() 참고
+    // 5. 'commentUpdate'이 안보이도록 처리한 이후
+    // 6. comment의 id 값과 같은 div를 찾아서 
+    //    그 div에 속해있는 'commentUpdate'를 다른 위치로 이동한 후 HTML을 새로 작성한다.
+
+    // ***** 1 *****
     if (this.readyState == 4 && this.status == 200) {
+
+        // ***** 2 *****
         let xmp = new DOMParser();
         let xmlDoc = xmp.parseFromString(this.responseText, 'text/xml');
         let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
         let listDiv = document.getElementById('commentList');
+
+        // ***** 3 *****
         if (code = 'success') {
+
+            // ***** 4 *****
             let comment = JSON.parse(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
             let updateFormDiv = document.getElementById('commentUpdate');
+
+            // ***** 5 *****
             updateFormDiv.style.display = "none";
+
+            // ***** 6 *****
             listDiv.appendChild(updateFormDiv);
-            for (let i of listDiv.children) {
+            for (let i of listDiv.children) { 
                 if (i.id == comment.id) {
                     i.innerHTML = commentView(comment);
                     break;
@@ -222,6 +233,7 @@ function updateResult() {
 
 // 취소 버튼
 function cancelComment() {
+    // 스타일만 변경
     document.getElementById('commentUpdate').style.display = "none";
 }
 
@@ -232,9 +244,16 @@ function cancelComment() {
 
 // 삭제 버튼
 function confirmDeletion(commentId) {
+    // commentId는 현재 글의 id값
+    // 1. id값으로 parameter작성 후 servlet과 통신하고
+    // 2. 현재 글 삭제
+
+    // ***** 1 *****
     let xhtp = new XMLHttpRequest();
     xhtp.open("get", "../CommentsServ?cmd=delete&id=" + commentId);
     xhtp.send();
+
+    // ***** 2 *****
     xhtp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             document.getElementById(commentId).remove();
@@ -243,3 +262,49 @@ function confirmDeletion(commentId) {
 }
 
 // ************************** 게시글 삭제 **************************
+
+
+// ************************** 기능 함수 **************************
+
+// 텍스트 효과
+function textEffect() {
+    // css스타일을 도와주기 위한 기능 함수 (중요도 낮음)
+    const inputText = document.querySelectorAll('input[type="text"]');
+    const labelText = document.querySelectorAll('input[type="text"] ~ label');
+
+    for (let i = 0; i < inputText.length; i++) {
+        if (inputText[i].value != "") {
+            labelText[i].classList.remove("active");
+            labelText[i].classList.add("inactive");
+        } else {
+            labelText[i].classList.remove("inactive");
+            labelText[i].classList.add("active");
+        }
+    }
+}
+
+// 데이터 한 건 조회
+function makeCommentView(comment) {
+    let div = document.createElement('div'); // div태그 생성
+    div.setAttribute('id', comment.id); // id속성값을 읽어온 데이터의 id값으로 저장
+    div.className = 'comment'; // class 부여(comment)
+    div.comment = comment; // (????)
+    div.innerHTML = commentView(comment); // 생성한 div태그의 html내용을 작성
+    return div;
+}
+
+// 출력 내용 작성
+function commentView(comment) {
+    let str =
+        '<div class="conWrapper">' +
+        '<span class="writer">' + comment.name + '</span class="writer">' + // 작성자 이름
+        '<span class="content">' + comment.content + '<span class="content">' + // 작성 내용
+        '</div>' +
+        '<div class="btnWrapper">' +
+        '<input type="button" value="수정" onclick="viewUpdateForm(' +
+        comment.id + ')">' +
+        '<input type="button" value="삭제" onclick="confirmDeletion(' +
+        comment.id + ')">' +
+        '</div>'
+    return str;
+}
