@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="css/style.css">
-	
+
 	<title>Basic 게시판</title>
 </head>
 
@@ -21,8 +21,14 @@
 		<div class="line"></div>
 		<div id="commentAdd">
 			<form action="" name="addForm">
-				<div>이름 : <input type="text" name="name" placeholder="what's your name"></div>
-				<div>내용 : <input type="text" name="content" placeholder="type what you want"></div>
+				<div>
+					<input type="text" name="name" onchange="textEffect()">
+					<label for="" class="active">what's your name?</label>
+				</div>
+				<div>
+					<input type="text" name="content" onchange="textEffect()">
+					<label for="" class="active">type what you want</label>
+				</div>
 				<input type="button" value="등록" onclick="addComment()">
 			</form>
 		</div>
@@ -31,8 +37,14 @@
 		<div id="commentUpdate">
 			<form action="" name="updateForm">
 				<input type="hidden" name="id" value="">
-				<div>이름 : <input type="text" name="name" placeholder="what's your name"></div>
-				<div>내용 : <input type="text" name="content" placeholder="type what you want"></div>
+				<div>
+					<input type="text" name="name" onchange="textEffect()">
+					<label for="" class="inactive">what's your name?</label>
+				</div>
+				<div>
+					<input type="text" name="content" onchange="textEffect()">
+					<label for="" class="inactive">type what you want</label>
+				</div>
 				<input type="button" value="변경" onclick="updateComment()">
 				<input type="button" value="취소" onclick="cancelComment()">
 			</form>

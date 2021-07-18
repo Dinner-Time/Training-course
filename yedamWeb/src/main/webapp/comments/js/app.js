@@ -11,6 +11,21 @@ window.onload = function () {
     loadCommentList();
 }
 
+function textEffect(){
+    const inputText = document.querySelectorAll('input[type="text"]');
+    const labelText = document.querySelectorAll('input[type="text"] ~ label');
+
+    for(let i =0; i<inputText.length; i++){
+        if (inputText[i].value != ""){
+            labelText[i].classList.remove("active");
+            labelText[i].classList.add("inactive");
+        } else{
+            labelText[i].classList.remove("inactive");
+            labelText[i].classList.add("active");
+        }
+    }
+}
+
 // ************************** 페이지 로드 **************************
 
 // 목록조회
@@ -115,7 +130,7 @@ function addComment() {
     let xhtp = new XMLHttpRequest();
     xhtp.open("get", "../CommentsServ?cmd=insert" + param);
     xhtp.send();
-    xhtp.onreadystatechange = addResult;
+    xhtp.onreadystatechange = addResult;    
 }
 
 // 등록 콜백 함수
@@ -131,6 +146,7 @@ function addResult() {
             listDiv.appendChild(makeCommentView(comment));
             addForm.name.value = "";
             addForm.content.value = "";
+            textEffect();
         } else if (code = 'error') {
             alert("error");
         }
@@ -154,6 +170,7 @@ function viewUpdateForm(commentId) {
     updateForm.id.value = comment.id;
     updateForm.name.value = comment.name;
     updateForm.content.value = comment.content;
+    textEffect();
 }
 
 // 변경 버튼
