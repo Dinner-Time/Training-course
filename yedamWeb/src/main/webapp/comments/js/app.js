@@ -183,7 +183,7 @@ function updateComment() {
     }
     let id = updateForm.id.value; // id
     let param = "&id=" + id + "&name=" + name + "&content=" + content;
-    console.log(param);
+    console.log(param); // parameter확인 (주석 가능)
     let xhtp = new XMLHttpRequest();
     xhtp.open("get", "../CommentsServ?cmd=update" + param);
     xhtp.send();
@@ -196,35 +196,46 @@ function updateResult() {
     // ctl + f로 addResult() 참고
     // 5. 'commentUpdate'이 안보이도록 처리한 이후
     // 6. comment의 id 값과 같은 div를 찾아서 
-    //    그 div에 속해있는 'commentUpdate'를 다른 위치로 이동한 후 HTML을 새로 작성한다.
+    //    그 div에 속해있는 **'commentUpdate'를 다른 위치로 이동한 후**(중요도 높음!!) HTML을 새로 작성한다.
+    // 6-1. 또는 replaceChild를 활용한다 
+
+    // servlet에서 html로 받아온 경우와 xml로 받아온 경우의 처리 과정이 다르다.
+    // 주석처리 된 부분들은 html로 데이터를 받아왔을때의 처리 과정
 
     // ***** 1 *****
     if (this.readyState == 4 && this.status == 200) {
 
         // ***** 2 *****
-        let xmp = new DOMParser();
-        let xmlDoc = xmp.parseFromString(this.responseText, 'text/xml');
+        // let xmp = new DOMParser();
+        // let xmlDoc = xmp.parseFromString(this.responseText, 'text/xml');
+        let xmlDoc = this.responseXML;
         let code = xmlDoc.getElementsByTagName('code')[0].innerHTML;
         let listDiv = document.getElementById('commentList');
 
         // ***** 3 *****
         if (code = 'success') {
 
-            // ***** 4 *****
-            let comment = JSON.parse(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
+            // // ***** 4 *****
+            // let comment = JSON.parse(xmlDoc.getElementsByTagName('data').item(0).innerHTML);
             let updateFormDiv = document.getElementById('commentUpdate');
-
-            // ***** 5 *****
+            
+            // // ***** 5, 6 *****
             updateFormDiv.style.display = "none";
-
-            // ***** 6 *****
             listDiv.appendChild(updateFormDiv);
-            for (let i of listDiv.children) { 
-                if (i.id == comment.id) {
-                    i.innerHTML = commentView(comment);
-                    break;
-                }
-            }
+            // for (let i of listDiv.children) { 
+            //     if (i.id == comment.id) {
+            //         i.innerHTML = commentView(comment);
+            //         break;
+            //     }
+            // }
+
+            // ***** 6-1 *****
+            let comment = JSON.parse(xmlDoc.getElementsByTagName('data').item(0).firstChild.nodeValue);
+            let commentDiv = makeCommentView(comment);
+            let oldCommentDiv = document.getElementById(comment.id);
+
+            listDiv.replaceChild(commentDiv, oldCommentDiv);
+
         } else if (code = 'error') {
             alert("error");
         }

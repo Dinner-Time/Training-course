@@ -33,6 +33,8 @@ body{
 }
 
 section{
+	position: absolute;
+	top: 10%;
     /* 크기 설정 */
     width: 600px;
     min-height: 800px;

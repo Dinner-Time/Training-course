@@ -46,6 +46,8 @@ public class CommentsServ extends HttpServlet {
 			HashMap<String, Object> map = CommentsDAO.getInstance().insert(comment);
 			out.println(toXML(map));
 		} else if (cmd.equals("update")) {
+			response.setContentType("text/xml;charset=utf-8");
+			
 			Comments comment = new Comments();
 			comment.setId(request.getParameter("id"));
 			comment.setContent(request.getParameter("content"));
