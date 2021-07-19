@@ -145,6 +145,8 @@ function addResult() {
 function viewUpdateForm(commentId) {
     // 1. 수정 Form을 보이게 하고
     // 2. 수정 하려는 글 아래에 Form을 추가
+    // 2-1. appendChild를 할 경우 HTML내용을 변경 할 시 updateForm이 사라진다
+    //      따라서 appendChild가 아닌 after를 한다.
     // 3. 수정 하려는 글의 데이터를 읽어와서 input에 저장
 
     let commentDiv = document.getElementById(commentId); // 수정 하려는 글의 id값
@@ -154,7 +156,10 @@ function viewUpdateForm(commentId) {
     updateFormDiv.style.display = "block";
 
     // ***** 2 *****
-    commentDiv.appendChild(updateFormDiv);
+    // commentDiv.appendChild(updateFormDiv);
+
+    // ***** 2-1 *****
+    commentDiv.after(updateFormDiv);
 
     // ***** 3 *****
     let comment = commentDiv.comment; // (????)
@@ -196,7 +201,7 @@ function updateResult() {
     // ctl + f로 addResult() 참고
     // 5. 'commentUpdate'이 안보이도록 처리한 이후
     // 6. comment의 id 값과 같은 div를 찾아서 
-    //    그 div에 속해있는 **'commentUpdate'를 다른 위치로 이동한 후**(중요도 높음!!) HTML을 새로 작성한다.
+    //    그 div에 속해있는 **'commentUpdate'를 다른 위치로 이동한 후**(updateComment에서 appendChild를 한 경우에만) HTML을 새로 작성한다. 
     // 6-1. 또는 replaceChild를 활용한다 
 
     // servlet에서 html로 받아온 경우와 xml로 받아온 경우의 처리 과정이 다르다.
@@ -221,7 +226,7 @@ function updateResult() {
             
             // // ***** 5, 6 *****
             updateFormDiv.style.display = "none";
-            listDiv.appendChild(updateFormDiv);
+            // listDiv.appendChild(updateFormDiv);
             // for (let i of listDiv.children) { 
             //     if (i.id == comment.id) {
             //         i.innerHTML = commentView(comment);
