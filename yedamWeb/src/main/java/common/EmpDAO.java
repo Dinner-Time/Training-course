@@ -108,6 +108,7 @@ public class EmpDAO {
 				emp.setLastName(rs.getString("last_name"));
 				emp.setEmail(rs.getString("email"));
 				emp.setHireDate(rs.getString("hire_date"));
+				emp.setSalary(rs.getInt("salary"));
 				empList.add(emp);
 			}
 		} catch (Exception e) {
